@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="SearchTableViewCell" id="KGk-i7-Jjw" customClass="SearchTableViewCell" customModule="EatAndFork" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="68"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="68"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="52d-FR-hUu" customClass="SearchView" customModule="EatAndFork" customModuleProvider="target">
+                        <rect key="frame" x="16" y="16" width="288" height="36"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4aY-5S-Ggc">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="68"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="52d-FR-hUu" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16" id="6BW-f3-Qeo"/>
+                    <constraint firstItem="52d-FR-hUu" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="8Cx-aa-unM"/>
+                    <constraint firstItem="4aY-5S-Ggc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Cig-RO-x1m"/>
+                    <constraint firstAttribute="trailing" secondItem="52d-FR-hUu" secondAttribute="trailing" constant="16" id="Foo-tN-ECZ"/>
+                    <constraint firstAttribute="bottom" secondItem="4aY-5S-Ggc" secondAttribute="bottom" id="HFy-Nq-6n5"/>
+                    <constraint firstAttribute="trailing" secondItem="4aY-5S-Ggc" secondAttribute="trailing" id="Rzz-xM-t0x"/>
+                    <constraint firstAttribute="bottom" secondItem="52d-FR-hUu" secondAttribute="bottom" constant="16" id="dsE-Y0-bHl"/>
+                    <constraint firstItem="4aY-5S-Ggc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="imF-dq-KvO"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <point key="canvasLocation" x="131" y="-11"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
