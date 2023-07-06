@@ -13,16 +13,16 @@
 import UIKit
 
 final class MainWorker {
-    func fetchMenuItems(comption: @escaping ([MenuItem]) -> Void)  {
+    func fetchMenuItems(completion: @escaping ([MenuItem]) -> Void)  {
         if let url = URL(string: "https://63bd4463d6600623889f97ea.mockapi.io/menus") {
             URLSession.shared.dataTask(with: url) { data, response, error in
                 if let data = data {
                     do {
                         let response = try JSONDecoder().decode([MenuItem].self, from: data)
-                        comption(response)
+                        completion(response)
                     } catch let error {
                         print(error)
-                        comption([])
+                        completion([])
                     }
                 }
             }.resume()

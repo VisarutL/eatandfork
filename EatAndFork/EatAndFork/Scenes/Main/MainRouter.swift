@@ -14,48 +14,36 @@ import UIKit
 
 @objc protocol MainRoutingLogic {
     func routeToSearch()
+    func routeToItemDetail(index: Int)
+    func routeToSummary()
 }
 
 protocol MainDataPassing {
     var dataStore: MainDataStore? { get }
 }
 
-class MainRouter: NSObject, MainRoutingLogic, MainDataPassing {
+final class MainRouter: NSObject, MainRoutingLogic, MainDataPassing {
     weak var viewController: MainViewController?
     var dataStore: MainDataStore?
     
     func routeToSearch() {
         guard let viewController = viewController else { return }
-        let searchViewCotroller = SearchViewController()
-        searchViewCotroller.dataStore?.menuItems = dataStore?.menuItems ?? []
-        viewController.navigationController?.pushViewController(searchViewCotroller, animated: true)
+        let searchViewController = SearchViewController()
+        searchViewController.interactor?.menuItems = dataStore?.menuItems ?? []
+        viewController.navigationController?.pushViewController(searchViewController, animated: true)
     }
-
-// MARK: Routing (navigating to other screens)
-
-//func routeToSomewhere(segue: UIStoryboardSegue?) {
-//    if let segue = segue {
-//        let destinationVC = segue.destination as! SomewhereViewController
-//        var destinationDS = destinationVC.router!.dataStore!
-//        passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-//    } else {
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let destinationVC = storyboard.instantiateViewController(withIdentifier: "SomewhereViewController") as! SomewhereViewController
-//        var destinationDS = destinationVC.router!.dataStore!
-//        passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-//        navigateToSomewhere(source: viewController!, destination: destinationVC)
-//    }
-//}
-
-// MARK: Navigation to other screen
-
-//func navigateToSomewhere(source: MainViewController, destination: SomewhereViewController) {
-//    source.show(destination, sender: nil)
-//}
-
-// MARK: Passing data to other screen
-
-//    func passDataToSomewhere(source: MainDataStore, destination: inout SomewhereDataStore) {
-//        destination.name = source.name
-//    }
+    
+    func routeToItemDetail(index: Int) {
+        guard let viewController = viewController else { return }
+        let detailViewController = DetailViewController()
+        detailViewController.interactor?.menuItem = dataStore?.menuItems[index]
+        detailViewController.modalPresentationStyle = .fullScreen
+        viewController.present(detailViewController, animated: true)
+    }
+    
+    func routeToSummary() {
+        guard let viewController = viewController else { return }
+        let summaryViewController = SummaryViewController()
+        viewController.navigationController?.pushViewController(summaryViewController, animated: true)
+    }
 }

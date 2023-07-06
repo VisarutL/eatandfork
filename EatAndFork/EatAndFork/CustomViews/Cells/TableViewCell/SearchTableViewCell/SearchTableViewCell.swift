@@ -9,7 +9,7 @@ import UIKit
 
 final class SearchTableViewCell: UITableViewCell {
     
-    static let reustIdentifier = "SearchTableViewCell"
+    static let reuseIdentifier = "SearchTableViewCell"
     
     override func awakeFromNib() {
         super.awakeFromNib()

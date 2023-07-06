@@ -21,15 +21,12 @@ protocol SearchDataStore {
     var currentItems: [MenuItem] { get set }
 }
 
-class SearchInteractor: SearchBusinessLogic, SearchDataStore {
+final class SearchInteractor: SearchBusinessLogic, SearchDataStore {
     var menuItems: [MenuItem] = []
     var currentItems: [MenuItem] = []
     
     var presenter: SearchPresentationLogic?
     private var worker: SearchWorker = SearchWorker()
-    //var name: String = ""
-
-    // MARK: Do something (and send response to SearchPresenter)
 
     func filterByText(request: Search.Filter.Request) {
         currentItems = worker.filterMenuItemsByText(searchText: request.text, menuItems: menuItems)

@@ -22,13 +22,13 @@ enum Search {
         struct Request {
             let text: String
         }
-        
-        struct ViewModel {
-            let menuItems: [MenuItem]
-        }
 
         struct Response {
             let menuItems: [MenuItem]
+        }
+        
+        struct ViewModel {
+            let itemViewModels: [ItemViewModel]
         }
     }
 }

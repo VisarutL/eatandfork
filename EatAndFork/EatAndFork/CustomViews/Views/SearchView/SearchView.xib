@@ -3,13 +3,14 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="Inter-VariableFont_slnt,wght.ttf">
-            <string>Inter-Regular</string>
+        <array key="Mitr-Light.ttf">
+            <string>Mitr-Light</string>
         </array>
     </customFonts>
     <objects>
@@ -36,7 +37,8 @@
                         </imageView>
                         <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="ค้นหาเมนู" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cCm-vz-N8t">
                             <rect key="frame" x="40" y="8" width="327" height="20"/>
-                            <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
+                            <color key="textColor" name="textColor"/>
+                            <fontDescription key="fontDescription" name="Mitr-Light" family="Mitr" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                             <connections>
                                 <outlet property="delegate" destination="-1" id="a66-Nv-R8e"/>
@@ -70,6 +72,9 @@
     </objects>
     <resources>
         <image name="search" width="16" height="16"/>
+        <namedColor name="textColor">
+            <color red="0.28999999165534973" green="0.28999999165534973" blue="0.28999999165534973" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

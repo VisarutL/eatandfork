@@ -12,7 +12,7 @@
 
 import UIKit
 
-class SearchWorker {
+final class SearchWorker {
     func filterMenuItemsByText(searchText: String, menuItems: [MenuItem]) -> [MenuItem] {
         guard searchText.isEmpty != true else { return menuItems }
         let filterMenuItems = menuItems.filter { menuItem in

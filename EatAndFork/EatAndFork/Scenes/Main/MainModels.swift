@@ -22,8 +22,27 @@ enum Main {
     enum FetchMenus {
         struct Request {}
         
-        struct ViewModel {}
+        struct Response {
+            let menuItems: [MenuItem]
+            let cartItems: [CartItem]
+        }
         
-        struct Response {}
+        struct ViewModel {
+            let itemViewModels: [ItemViewModel]
+        }
+    }
+    
+    enum FetchCart {
+        struct Request {}
+        
+        struct Response {
+            let totalPriceOfItems: Double
+            let isHiddenCheckoutButton: Bool
+        }
+        
+        struct ViewModel {
+            let totalPriceOfItems: String
+            let isHiddenCheckoutButton: Bool
+        }
     }
 }
