@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 
 extension UIImage {
-
     /// This method creates an image of a view
     convenience init?(view: UIView) {
         // Based on https://stackoverflow.com/a/41288197/1118398

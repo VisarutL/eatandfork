@@ -25,7 +25,7 @@ final class MainPresenter: MainPresentationLogic {
             ItemViewModel(
                 imageUrl: item.imageUrl,
                 name: item.name,
-                price: item.price.description.Baht(),
+                price: item.price.description.baht(),
                 numberOfItem: response.cartItems.first(where: { $0.id == item.id })?.numberOfItem.description
             )
         }
@@ -39,7 +39,7 @@ final class MainPresenter: MainPresentationLogic {
     func presentCartItems(response: Main.FetchCart.Response) {
         viewController?.displayCartItems(
             viewModel: .init(
-                totalPriceOfItems: response.totalPriceOfItems.description.Baht(),
+                totalPriceOfItems: response.totalPriceOfItems.roundToTwoDecimal().baht(),
                 isHiddenCheckoutButton: response.isHiddenCheckoutButton
             )
         )

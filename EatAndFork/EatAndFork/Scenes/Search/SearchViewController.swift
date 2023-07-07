@@ -19,7 +19,7 @@ protocol SearchDisplayLogic: AnyObject
 
 final class SearchViewController: UIViewController, SearchDisplayLogic {
     var interactor: (SearchBusinessLogic & SearchDataStore)?
-    var router: (NSObjectProtocol & SearchRoutingLogic & SearchDataPassing)?
+    var router: (SearchRoutingLogic & SearchDataPassing)?
     
     @IBOutlet private weak var backButton: UIButton!
     @IBOutlet private weak var searchView: SearchView!

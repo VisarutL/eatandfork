@@ -20,14 +20,15 @@ protocol DetailDataPassing {
     var dataStore: DetailDataStore? { get }
 }
 
-final class DetailRouter: NSObject, DetailRoutingLogic, DetailDataPassing {
+final class DetailRouter: DetailRoutingLogic, DetailDataPassing {
     weak var viewController: DetailViewController?
     var dataStore: DetailDataStore?
 
-// MARK: Routing (navigating to other screens)
-
     func routeToBrowser() {
-        guard let url = URL(string: dataStore?.menuItem?.url ?? "") else { return }
+        guard
+            let url = URL(string: dataStore?.menuItem?.url ?? ""),
+            UIApplication.shared.canOpenURL(url)
+        else { return }
         UIApplication.shared.open(url)
     }
 

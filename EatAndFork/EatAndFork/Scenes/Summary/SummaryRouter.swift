@@ -16,26 +16,24 @@ import UIKit
     func routeToThankyou()
 }
 
-protocol SummaryDataPassing {
-    var dataStore: SummaryDataStore? { get }
-}
-
-final class SummaryRouter: NSObject, SummaryRoutingLogic, SummaryDataPassing {
+final class SummaryRouter: SummaryRoutingLogic {
     weak var viewController: SummaryViewController?
-    var dataStore: SummaryDataStore?
+
+    private let cartManager: CartManagerProtocol
     
-    private let cartManager: CartManagerProtocol = CartManager.shared
+    init(cartManager: CartManagerProtocol = CartManager.shared) {
+        self.cartManager = cartManager
+    }
     
     // MARK: Routing (navigating to other screens)
     
     func routeToThankyou() {
-        guard let viewController = viewController else { return }
         let thankyouPopupViewController = ThankYouPopupViewController()
         thankyouPopupViewController.modalPresentationStyle = .overFullScreen
         thankyouPopupViewController.modalTransitionStyle = .crossDissolve
-        viewController.present(thankyouPopupViewController, animated: true)  {
-            self.cartManager.clearCart()
-            viewController.navigationController?.popToRootViewController(animated: false)
+        cartManager.clearCart()
+        viewController?.present(thankyouPopupViewController, animated: true) { [weak self] in
+            self?.viewController?.navigationController?.popToRootViewController(animated: false)
         }
     }
 }

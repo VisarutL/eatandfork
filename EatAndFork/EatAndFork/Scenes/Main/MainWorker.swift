@@ -15,16 +15,13 @@ import Alamofire
 
 final class MainWorker {
     func fetchMenuItems(completion: @escaping ([MenuItem]) -> Void)  {
-        AF.request("https://63bd4463d6600623889f97ea.mockapi.io/menus").response { response in
-            if let data = response.data {
-                do {
-                    let response = try JSONDecoder().decode([MenuItem].self, from: data)
-                    completion(response)
-                } catch {
-                    completion([])
-                }
-            }
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        
+        AF.request("https://63bd4463d6600623889f97ea.mockapi.io/menus").responseDecodable(of: [MenuItem].self, decoder: decoder) { response in
+            completion(response.value ?? [])
         }
+            
 //        if let url = URL(string: "https://63bd4463d6600623889f97ea.mockapi.io/menus") {
 //            URLSession.shared.dataTask(with: url) { data, response, error in
 //                if let data = data {

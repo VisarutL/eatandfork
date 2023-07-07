@@ -22,28 +22,28 @@ protocol MainDataPassing {
     var dataStore: MainDataStore? { get }
 }
 
-final class MainRouter: NSObject, MainRoutingLogic, MainDataPassing {
+final class MainRouter: MainRoutingLogic, MainDataPassing {
     weak var viewController: MainViewController?
     var dataStore: MainDataStore?
     
     func routeToSearch() {
-        guard let viewController = viewController else { return }
-        let searchViewController = SearchViewController()
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let searchViewController = storyboard.instantiateViewController(withIdentifier: "SearchViewController") as! SearchViewController
         searchViewController.interactor?.menuItems = dataStore?.menuItems ?? []
-        viewController.navigationController?.pushViewController(searchViewController, animated: true)
+        viewController?.navigationController?.pushViewController(searchViewController, animated: true)
     }
     
     func routeToItemDetail(index: Int) {
-        guard let viewController = viewController else { return }
-        let detailViewController = DetailViewController()
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let detailViewController = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         detailViewController.interactor?.menuItem = dataStore?.menuItems[index]
         detailViewController.modalPresentationStyle = .fullScreen
-        viewController.present(detailViewController, animated: true)
+        viewController?.present(detailViewController, animated: true)
     }
     
     func routeToSummary() {
-        guard let viewController = viewController else { return }
-        let summaryViewController = SummaryViewController()
-        viewController.navigationController?.pushViewController(summaryViewController, animated: true)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let summaryViewController = storyboard.instantiateViewController(withIdentifier: "SummaryViewController") as! SummaryViewController
+        viewController?.navigationController?.pushViewController(summaryViewController, animated: true)
     }
 }

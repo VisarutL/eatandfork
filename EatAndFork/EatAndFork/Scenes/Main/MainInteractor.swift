@@ -26,35 +26,45 @@ final class MainInteractor: MainBusinessLogic, MainDataStore {
     
     var presenter: MainPresentationLogic?
     private var worker: MainWorker = MainWorker()
-    private let cartManager: CartManagerProtocol = CartManager.shared
+    
+    private var cartItems: [CartItem] {
+        return cartManager.getAllItems()
+    }
+    
+    private let cartManager: CartManagerProtocol
+    
+    init(cartManager: CartManagerProtocol = CartManager.shared) {
+        self.cartManager = cartManager
+    }
 
     // MARK: Do something (and send response to MainPresenter)
 
     func fetchMemuItems(request: Main.FetchMenus.Request) {
+        let cartItems = cartItems
         worker.fetchMenuItems { [weak self] response in
             self?.menuItems = response
-            DispatchQueue.main.async {
-                self?.presenter?.presentMenuItems(
-                    response: .init(
-                        menuItems: response,
-                        cartItems: self?.cartManager.getAllItems() ?? []
-                    )
+            self?.presenter?.presentMenuItems(
+                response: .init(
+                    menuItems: response,
+                    cartItems: cartItems
                 )
-            }
+            )
         }
     }
     
     func fetchCartItems(request: Main.FetchCart.Request) {
+        let cartItems = cartItems
+        let totalPriceOfItems = cartManager.getTotalPriceOfItems()
         presenter?.presentMenuItems(
             response: .init(
                 menuItems: menuItems,
-                cartItems: cartManager.getAllItems()
+                cartItems: cartItems
             )
         )
         presenter?.presentCartItems(
             response: .init(
-                totalPriceOfItems: cartManager.getTotalPrice(),
-                isHiddenCheckoutButton: cartManager.getAllItems().isEmpty
+                totalPriceOfItems: totalPriceOfItems,
+                isHiddenCheckoutButton: cartItems.isEmpty
             )
         )
     }

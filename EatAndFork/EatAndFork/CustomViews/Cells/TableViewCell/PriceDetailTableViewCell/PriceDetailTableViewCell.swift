@@ -38,7 +38,7 @@ final class PriceDetailTableViewCell: UITableViewCell {
     
     func setupData(viewModel: PriceDetailViewModel) {
         titleLabel.text = viewModel.title
-        priceLabel.text = viewModel.price.Baht()
+        priceLabel.text = viewModel.price
         switch viewModel.style {
         case .normal:
             titleLabel.font = UIFont(name: "Mitr-Light", size: 14.0)

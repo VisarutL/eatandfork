@@ -29,6 +29,9 @@ enum Summary {
 
         struct Response {
             let cartItems: [CartItem]
+            let totalPriceOfItems: Double
+            let serviceCharge: Double
+            let vat: Double
             let totalPrice: Double
         }
 
