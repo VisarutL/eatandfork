@@ -7,6 +7,13 @@
 
 import UIKit
 
+struct ItemViewModel: Hashable {
+    let imageUrl: String
+    let name: String
+    let price: String
+    let numberOfItem: String?
+}
+
 final class ItemListTableViewCell: UITableViewCell {
     
     @IBOutlet private weak var menuImageView: UIImageView!
@@ -15,7 +22,7 @@ final class ItemListTableViewCell: UITableViewCell {
     @IBOutlet private weak var numberOfItemLabel: UILabel!
     @IBOutlet private weak var priceLabel: UILabel!
     
-    static let reustIdentifier = "ItemListTableViewCell"
+    static let reuseIdentifier = "ItemListTableViewCell"
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -35,10 +42,16 @@ final class ItemListTableViewCell: UITableViewCell {
         numberOfItemView.isHidden = true
     }
     
-    func setupData(menu: MenuItem) {
-        menuImageView.downloaded(from: menu.imageUrl, contentMode: .scaleAspectFill)
-        menuLabel.text = menu.name
-        priceLabel.text = "฿ \(menu.price)"
+    func setupData(viewModel: ItemViewModel) {
+        menuImageView.downloaded(from: viewModel.imageUrl, contentMode: .scaleAspectFill)
+        menuLabel.text = viewModel.name
+        priceLabel.text = viewModel.price
+        if let numberOfItem = viewModel.numberOfItem, numberOfItem.isEmpty == false {
+            numberOfItemView.isHidden = false
+            numberOfItemLabel.text = numberOfItem
+        } else {
+            numberOfItemView.isHidden = true
+        }
     }
     
 }

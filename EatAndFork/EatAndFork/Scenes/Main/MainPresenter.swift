@@ -14,14 +14,34 @@ import UIKit
 
 protocol MainPresentationLogic {
     func presentMenuItems(response: Main.FetchMenus.Response)
+    func presentCartItems(response: Main.FetchCart.Response)
 }
 
-class MainPresenter: MainPresentationLogic {
+final class MainPresenter: MainPresentationLogic {
     weak var viewController: MainDisplayLogic?
     
-    // MARK: Parse and calc respnse from MainInteractor and send simple view model to MainViewController to be displayed
-    
     func presentMenuItems(response: Main.FetchMenus.Response) {
-        viewController?.displayMenuItems(viewModel: .init())
+        let viewModels = response.menuItems.compactMap { item in
+            ItemViewModel(
+                imageUrl: item.imageUrl,
+                name: item.name,
+                price: item.price.description.Baht(),
+                numberOfItem: response.cartItems.first(where: { $0.id == item.id })?.numberOfItem.description
+            )
+        }
+        viewController?.displayMenuItems(
+            viewModel: .init(
+                itemViewModels: viewModels
+            )
+        )
+    }
+    
+    func presentCartItems(response: Main.FetchCart.Response) {
+        viewController?.displayCartItems(
+            viewModel: .init(
+                totalPriceOfItems: response.totalPriceOfItems.description.Baht(),
+                isHiddenCheckoutButton: response.isHiddenCheckoutButton
+            )
+        )
     }
 }

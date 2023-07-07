@@ -9,9 +9,11 @@
     </dependencies>
     <customFonts key="customFonts">
         <array key="Inter-VariableFont_slnt,wght.ttf">
-            <string>Inter-Regular</string>
-            <string>Inter-Regular_Bold</string>
-            <string>Inter-Regular_Medium</string>
+            <string>Inter-Regular_ExtraBold</string>
+            <string>Inter-Regular_SemiBold</string>
+        </array>
+        <array key="Mitr-Light.ttf">
+            <string>Mitr-Light</string>
         </array>
     </customFonts>
     <objects>
@@ -28,30 +30,28 @@
                         <rect key="frame" x="0.0" y="0.0" width="164" height="164"/>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZO9-fW-17L">
-                        <rect key="frame" x="137" y="4" width="23" height="24"/>
+                        <rect key="frame" x="128" y="4" width="32" height="32"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zHZ-q5-wXQ">
-                                <rect key="frame" x="8" y="2" width="7" height="20"/>
-                                <fontDescription key="fontDescription" name="Inter-Regular_Bold" family="Inter" pointSize="14"/>
+                                <rect key="frame" x="2" y="2" width="28" height="28"/>
+                                <fontDescription key="fontDescription" name="Inter-Regular_ExtraBold" family="Inter" pointSize="18"/>
                                 <color key="textColor" name="mainColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" name="backgroundColor"/>
                         <constraints>
-                            <constraint firstItem="zHZ-q5-wXQ" firstAttribute="leading" secondItem="ZO9-fW-17L" secondAttribute="leading" constant="8" id="3e7-Yg-yXW"/>
-                            <constraint firstAttribute="height" constant="24" id="Gmt-sP-dmP"/>
-                            <constraint firstAttribute="trailing" secondItem="zHZ-q5-wXQ" secondAttribute="trailing" constant="8" id="I5a-2p-fAh"/>
+                            <constraint firstItem="zHZ-q5-wXQ" firstAttribute="leading" secondItem="ZO9-fW-17L" secondAttribute="leading" constant="2" id="3e7-Yg-yXW"/>
+                            <constraint firstAttribute="height" constant="32" id="Gmt-sP-dmP"/>
+                            <constraint firstAttribute="trailing" secondItem="zHZ-q5-wXQ" secondAttribute="trailing" constant="2" id="I5a-2p-fAh"/>
                             <constraint firstItem="zHZ-q5-wXQ" firstAttribute="top" secondItem="ZO9-fW-17L" secondAttribute="top" constant="2" id="VFI-b7-bMF"/>
+                            <constraint firstAttribute="width" constant="32" id="X8K-7v-aTn"/>
                             <constraint firstAttribute="bottom" secondItem="zHZ-q5-wXQ" secondAttribute="bottom" constant="2" id="y68-XK-SUz"/>
                         </constraints>
                     </view>
                     <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gv4-gC-cGL">
-                        <rect key="frame" x="0.0" y="110" width="164" height="54"/>
+                        <rect key="frame" x="0.0" y="105" width="164" height="59"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="54" id="49t-Ei-6nV"/>
-                        </constraints>
                     </view>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plus-circle-white" translatesAutoresizingMaskIntoConstraints="NO" id="GDt-3I-sXq">
                         <rect key="frame" x="140" y="140" width="16" height="16"/>
@@ -61,14 +61,14 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7pk-My-Bta">
-                        <rect key="frame" x="8" y="114" width="148" height="17"/>
-                        <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
+                        <rect key="frame" x="8" y="109" width="148" height="22"/>
+                        <fontDescription key="fontDescription" name="Mitr-Light" family="Mitr" pointSize="14"/>
                         <color key="textColor" name="backgroundColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G23-Uk-m9C">
                         <rect key="frame" x="8" y="139" width="124" height="17"/>
-                        <fontDescription key="fontDescription" name="Inter-Regular_Medium" family="Inter" pointSize="14"/>
+                        <fontDescription key="fontDescription" name="Inter-Regular_SemiBold" family="Inter" pointSize="14"/>
                         <color key="textColor" name="backgroundColor"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -85,6 +85,7 @@
                 <constraint firstItem="Gv4-gC-cGL" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="HaU-XU-AAK"/>
                 <constraint firstAttribute="trailing" secondItem="ZO9-fW-17L" secondAttribute="trailing" constant="4" id="LIM-rb-RE9"/>
                 <constraint firstAttribute="trailing" secondItem="ZO9-fW-17L" secondAttribute="trailing" constant="4" id="MEi-9A-bap"/>
+                <constraint firstItem="Gv4-gC-cGL" firstAttribute="top" secondItem="7pk-My-Bta" secondAttribute="top" constant="-4" id="SFP-XG-n9X"/>
                 <constraint firstAttribute="bottom" secondItem="G23-Uk-m9C" secondAttribute="bottom" constant="8" id="WVg-RS-jgD"/>
                 <constraint firstItem="7pk-My-Bta" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="YgA-C9-SPA"/>
                 <constraint firstItem="dCd-pU-fX4" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Z9c-b4-PPP"/>

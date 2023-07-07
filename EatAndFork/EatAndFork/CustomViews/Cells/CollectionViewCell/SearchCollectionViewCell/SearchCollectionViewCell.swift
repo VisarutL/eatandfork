@@ -9,7 +9,7 @@ import UIKit
 
 final class SearchCollectionViewCell: UICollectionViewCell {
     
-    static let reustIdentifier = "SearchCollectionViewCell"
+    static let reuseIdentifier = "SearchCollectionViewCell"
 
     override func awakeFromNib() {
         super.awakeFromNib()

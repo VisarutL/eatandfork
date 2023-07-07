@@ -14,19 +14,23 @@ import UIKit
 
 protocol MainDisplayLogic: AnyObject {
     func displayMenuItems(viewModel: Main.FetchMenus.ViewModel)
+    func displayCartItems(viewModel: Main.FetchCart.ViewModel)
 }
 
-final class MainViewController: UIViewController, MainDisplayLogic, MainDataPassing {
-    private var interactor: MainBusinessLogic?
+final class MainViewController: UIViewController, MainDisplayLogic {
+    private var interactor: (MainBusinessLogic & MainDataStore)?
     private var router: (NSObjectProtocol & MainRoutingLogic & MainDataPassing)?
     @IBOutlet private weak var containerButtonView: UIStackView!
     @IBOutlet private weak var listButton: UIButton!
     @IBOutlet private weak var gridButton: UIButton!
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var checkoutButton: UIButton!
+    @IBOutlet private weak var totalPriceItemLabel: UILabel!
+    @IBOutlet private weak var checkoutContainerView: UIView!
     
-    var dataStore: MainDataStore?
-  
+    private var viewModels: [ItemViewModel] = []
+    
     // MARK: Object lifecycle
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -47,23 +51,11 @@ final class MainViewController: UIViewController, MainDisplayLogic, MainDataPass
         let presenter = MainPresenter()
         let router = MainRouter()
         viewController.interactor = interactor
-        viewController.dataStore = interactor
         viewController.router = router
         interactor.presenter = presenter
         presenter.viewController = viewController
         router.viewController = viewController
         router.dataStore = interactor
-    }
-
-    // MARK: - Routing
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let scene = segue.identifier {
-            let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
-            if let router = router, router.responds(to: selector) {
-                router.perform(selector, with: segue)
-            }
-        }
     }
 
     // MARK: - View lifecycle
@@ -72,8 +64,14 @@ final class MainViewController: UIViewController, MainDisplayLogic, MainDataPass
         super.viewDidLoad()
         setupUI()
         setupTableView()
-        setupCollecitonView()
+        setupCollectionView()
         interactor?.fetchMemuItems(request: .init())
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        interactor?.fetchCartItems(request: .init())
     }
     
     private func setupUI() {
@@ -85,17 +83,19 @@ final class MainViewController: UIViewController, MainDisplayLogic, MainDataPass
         listButton.layer.borderColor = UIColor.red.cgColor
         gridButton.layer.borderWidth = 1
         gridButton.layer.borderColor = UIColor.red.cgColor
+        checkoutButton.layer.cornerRadius = 12
+        checkoutButton.dropShadow(color: .black, opacity: 0.25, offSet: .init(width: 0, height: -1), radius: 8)
     }
     
     private func setupTableView() {
-        tableView.register(.init(nibName: "SearchTableViewCell", bundle: nil), forCellReuseIdentifier: SearchTableViewCell.reustIdentifier)
-        tableView.register(.init(nibName: "ItemListTableViewCell", bundle: nil), forCellReuseIdentifier: ItemListTableViewCell.reustIdentifier)
+        tableView.register(.init(nibName: "SearchTableViewCell", bundle: nil), forCellReuseIdentifier: SearchTableViewCell.reuseIdentifier)
+        tableView.register(.init(nibName: "ItemListTableViewCell", bundle: nil), forCellReuseIdentifier: ItemListTableViewCell.reuseIdentifier)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44.0
     }
     
-    private func setupCollecitonView() {
-        let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, enviroment in
+    private func setupCollectionView() {
+        let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
             switch Main.Section.init(rawValue: sectionIndex) {
             case .search:
                 return self?.searchSection()
@@ -106,8 +106,8 @@ final class MainViewController: UIViewController, MainDisplayLogic, MainDataPass
             }
         }
         collectionView.setCollectionViewLayout(layout, animated: true)
-        collectionView.register(.init(nibName: "SearchCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: SearchCollectionViewCell.reustIdentifier)
-        collectionView.register(.init(nibName: "GridItemCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: GridItemCollectionViewCell.reustIdentifier)
+        collectionView.register(.init(nibName: "SearchCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: SearchCollectionViewCell.reuseIdentifier)
+        collectionView.register(.init(nibName: "GridItemCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: GridItemCollectionViewCell.reuseIdentifier)
     }
     
     private func searchSection() -> NSCollectionLayoutSection {
@@ -115,7 +115,7 @@ final class MainViewController: UIViewController, MainDisplayLogic, MainDataPass
         
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(68.0))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(60.0))
         
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
@@ -131,7 +131,7 @@ final class MainViewController: UIViewController, MainDisplayLogic, MainDataPass
         
         item.contentInsets = .init(top: 0, leading: 8, bottom: 0, trailing: 8)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(164.0))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1/2))
         
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
@@ -167,11 +167,20 @@ final class MainViewController: UIViewController, MainDisplayLogic, MainDataPass
         shouldShowListView(isShow: false)
     }
 
+    @IBAction private func checkoutButtonDidTap(_ sender: Any) {
+        router?.routeToSummary()
+    }
     // MARK: - display view model from MainPresenter
 
     func displayMenuItems(viewModel: Main.FetchMenus.ViewModel) {
+        viewModels = viewModel.itemViewModels
         tableView.reloadData()
         collectionView.reloadData()
+    }
+    
+    func displayCartItems(viewModel: Main.FetchCart.ViewModel) {
+        checkoutContainerView.isHidden = viewModel.isHiddenCheckoutButton
+        totalPriceItemLabel.text = viewModel.totalPriceOfItems
     }
 }
 
@@ -184,7 +193,7 @@ extension MainViewController: UITableViewDelegate {
         case .search:
             router?.routeToSearch()
         case .menus:
-            print("Item TableView")
+            router?.routeToItemDetail(index: indexPath.row)
         }
     }
 }
@@ -201,7 +210,7 @@ extension MainViewController: UITableViewDataSource {
         case .search:
             return 1
         case .menus:
-            return dataStore?.menuItems.count ?? 0
+            return viewModels.count
         case .none:
             return 0
         }
@@ -211,16 +220,15 @@ extension MainViewController: UITableViewDataSource {
         guard let section = Main.Section.init(rawValue: indexPath.section) else { return UITableViewCell() }
         switch section {
         case .search:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.reustIdentifier, for: indexPath) as? SearchTableViewCell else { return UITableViewCell() }
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.reuseIdentifier, for: indexPath) as? SearchTableViewCell else { return UITableViewCell() }
             return cell
         case .menus:
             guard
-                let cell = tableView.dequeueReusableCell(withIdentifier: ItemListTableViewCell.reustIdentifier, for: indexPath) as? ItemListTableViewCell,
-                let menuItem = dataStore?.menuItems[indexPath.row]
+                let cell = tableView.dequeueReusableCell(withIdentifier: ItemListTableViewCell.reuseIdentifier, for: indexPath) as? ItemListTableViewCell
             else {
                 return UITableViewCell()
             }
-            cell.setupData(menu: menuItem)
+            cell.setupData(viewModel: viewModels[indexPath.row])
             return cell
         }
     }
@@ -235,7 +243,7 @@ extension MainViewController: UICollectionViewDelegate {
         case .search:
             router?.routeToSearch()
         case .menus:
-            print("Item CollectionView")
+            router?.routeToItemDetail(index: indexPath.row)
         }
     }
 }
@@ -252,7 +260,7 @@ extension MainViewController: UICollectionViewDataSource {
         case .search:
             return 1
         case .menus:
-            return dataStore?.menuItems.count ?? 0
+            return interactor?.menuItems.count ?? 0
         case .none:
             return 0
         }
@@ -262,16 +270,15 @@ extension MainViewController: UICollectionViewDataSource {
         guard let section = Main.Section.init(rawValue: indexPath.section) else { return UICollectionViewCell() }
         switch section {
         case .search:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.reustIdentifier, for: indexPath) as? SearchCollectionViewCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.reuseIdentifier, for: indexPath) as? SearchCollectionViewCell else { return UICollectionViewCell() }
             return cell
         case .menus:
             guard
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridItemCollectionViewCell.reustIdentifier, for: indexPath) as? GridItemCollectionViewCell,
-                let menuItem = dataStore?.menuItems[indexPath.row]
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GridItemCollectionViewCell.reuseIdentifier, for: indexPath) as? GridItemCollectionViewCell
             else {
                 return UICollectionViewCell()
             }
-            cell.setupData(menu: menuItem)
+            cell.setupData(viewModel: viewModels[indexPath.row])
             return cell
         }
     }

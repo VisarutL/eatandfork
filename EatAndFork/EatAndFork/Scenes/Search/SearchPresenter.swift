@@ -16,15 +16,21 @@ protocol SearchPresentationLogic {
     func presentFilterMenuItems(response: Search.Filter.Response)
 }
 
-class SearchPresenter: SearchPresentationLogic {
+final class SearchPresenter: SearchPresentationLogic {
     weak var viewController: SearchDisplayLogic?
 
-    // MARK: Parse and calc respnse from SearchInteractor and send simple view model to SearchViewController to be displayed
-
     func presentFilterMenuItems(response: Search.Filter.Response) {
+        let viewModels = response.menuItems.compactMap { item in
+            ItemViewModel(
+                imageUrl: item.imageUrl,
+                name: item.name,
+                price: item.price.description.Baht(),
+                numberOfItem: nil
+            )
+        }
         viewController?.displayFilterMenuItems(
             viewModel: .init(
-                menuItems: response.menuItems
+                itemViewModels: viewModels
             )
         )
     }

@@ -10,7 +10,10 @@
     <customFonts key="customFonts">
         <array key="Inter-VariableFont_slnt,wght.ttf">
             <string>Inter-Regular</string>
-            <string>Inter-Regular_Medium</string>
+            <string>Inter-Regular_SemiBold</string>
+        </array>
+        <array key="Mitr-Light.ttf">
+            <string>Mitr-Light</string>
         </array>
     </customFonts>
     <objects>
@@ -37,10 +40,10 @@
                             <constraint firstAttribute="width" secondItem="Gjo-DL-Dqt" secondAttribute="height" multiplier="1:1" id="wln-EI-O8p"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vkp-er-9uB">
-                        <rect key="frame" x="112" y="16" width="275.33333333333331" height="17"/>
-                        <fontDescription key="fontDescription" name="Inter-Regular" family="Inter" pointSize="14"/>
-                        <nil key="textColor"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="ข้าวหน้าปลาทูน่า" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vkp-er-9uB">
+                        <rect key="frame" x="112" y="16" width="275.33333333333331" height="22"/>
+                        <fontDescription key="fontDescription" name="Mitr-Light" family="Mitr" pointSize="14"/>
+                        <color key="textColor" name="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yp4-o5-pCf">
@@ -70,9 +73,9 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7mo-BX-0e9">
-                        <rect key="frame" x="112" y="79" width="274" height="17"/>
-                        <fontDescription key="fontDescription" name="Inter-Regular_Medium" family="Inter" pointSize="14"/>
-                        <nil key="textColor"/>
+                        <rect key="frame" x="112" y="76.333333333333329" width="274" height="19.666666666666671"/>
+                        <fontDescription key="fontDescription" name="Inter-Regular_SemiBold" family="Inter" pointSize="16"/>
+                        <color key="textColor" name="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
@@ -110,6 +113,9 @@
         <image name="plus-circle" width="24" height="24"/>
         <namedColor name="mainColor">
             <color red="0.86299997568130493" green="0.70200002193450928" blue="0.25999999046325684" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="textColor">
+            <color red="0.28999999165534973" green="0.28999999165534973" blue="0.28999999165534973" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

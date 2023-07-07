@@ -17,26 +17,24 @@ protocol SearchDisplayLogic: AnyObject
     func displayFilterMenuItems(viewModel: Search.Filter.ViewModel)
 }
 
-final class SearchViewController: UIViewController, SearchDisplayLogic, SearchDataPassing {
-    var interactor: SearchBusinessLogic?
+final class SearchViewController: UIViewController, SearchDisplayLogic {
+    var interactor: (SearchBusinessLogic & SearchDataStore)?
     var router: (NSObjectProtocol & SearchRoutingLogic & SearchDataPassing)?
     
     @IBOutlet private weak var backButton: UIButton!
     @IBOutlet private weak var searchView: SearchView!
     @IBOutlet private weak var tableView: UITableView!
     
-    private lazy var tableViewDataSource: UITableViewDiffableDataSource<Search.Section, MenuItem> = {
-        let datasource = UITableViewDiffableDataSource<Search.Section, MenuItem>(tableView: tableView) { tableView, indexPath, itemIdentifier in
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: ItemListTableViewCell.reustIdentifier, for: indexPath) as? ItemListTableViewCell else {
+    private lazy var tableViewDataSource: UITableViewDiffableDataSource<Search.Section, ItemViewModel> = {
+        let datasource = UITableViewDiffableDataSource<Search.Section, ItemViewModel>(tableView: tableView) { tableView, indexPath, itemIdentifier in
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ItemListTableViewCell.reuseIdentifier, for: indexPath) as? ItemListTableViewCell else {
                 return UITableViewCell()
             }
-            cell.setupData(menu: itemIdentifier)
+            cell.setupData(viewModel: itemIdentifier)
             return cell
         }
         return datasource
     }()
-    
-    var dataStore: SearchDataStore?
     
     // MARK: Object lifecycle
     
@@ -58,23 +56,11 @@ final class SearchViewController: UIViewController, SearchDisplayLogic, SearchDa
         let presenter = SearchPresenter()
         let router = SearchRouter()
         viewController.interactor = interactor
-        viewController.dataStore = interactor
         viewController.router = router
         interactor.presenter = presenter
         presenter.viewController = viewController
         router.viewController = viewController
         router.dataStore = interactor
-    }
-    
-    // MARK: - Routing
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let scene = segue.identifier {
-            let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
-            if let router = router, router.responds(to: selector) {
-                router.perform(selector, with: segue)
-            }
-        }
     }
     
     // MARK: - View lifecycle
@@ -91,19 +77,14 @@ final class SearchViewController: UIViewController, SearchDisplayLogic, SearchDa
     }
     
     private func setupTableView() {
-        tableView.register(.init(nibName: "ItemListTableViewCell", bundle: nil), forCellReuseIdentifier: ItemListTableViewCell.reustIdentifier)
+        tableView.register(.init(nibName: "ItemListTableViewCell", bundle: nil), forCellReuseIdentifier: ItemListTableViewCell.reuseIdentifier)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44.0
-        configureInitalDiffableSnapshot()
+        configureInitialDiffableSnapshot()
     }
     
-    private func configureInitalDiffableSnapshot() {
-        var snapshot = NSDiffableDataSourceSnapshot<Search.Section, MenuItem>()
-        
-        snapshot.appendSections([.search])
-        snapshot.appendItems(dataStore?.menuItems ?? [], toSection: .search)
-        
-        tableViewDataSource.apply(snapshot, animatingDifferences: false)
+    private func configureInitialDiffableSnapshot() {
+        interactor?.filterByText(request: .init(text: ""))
     }
     
     //MARK: - receive events from UI
@@ -115,10 +96,10 @@ final class SearchViewController: UIViewController, SearchDisplayLogic, SearchDa
     // MARK: - display view model from SearchPresenter
 
     func displayFilterMenuItems(viewModel: Search.Filter.ViewModel) {
-        var snapshot = NSDiffableDataSourceSnapshot<Search.Section, MenuItem>()
+        var snapshot = NSDiffableDataSourceSnapshot<Search.Section, ItemViewModel>()
         
         snapshot.appendSections([.search])
-        snapshot.appendItems(viewModel.menuItems, toSection: .search)
+        snapshot.appendItems(viewModel.itemViewModels, toSection: .search)
         
         tableViewDataSource.apply(snapshot, animatingDifferences: true)
     }
@@ -128,7 +109,7 @@ final class SearchViewController: UIViewController, SearchDisplayLogic, SearchDa
 
 extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Item TableView \(indexPath)")
+        router?.routeToItemDetail(index: indexPath.row)
     }
 }
 

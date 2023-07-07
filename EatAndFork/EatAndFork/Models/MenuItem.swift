@@ -12,7 +12,7 @@ struct MenuItem: Codable, Hashable {
     var name: String
     var desc: String
     var url: String
-    var price: Double
+    var price: Int
     var imageUrl: String
     
     enum CodingKeys: String, CodingKey {

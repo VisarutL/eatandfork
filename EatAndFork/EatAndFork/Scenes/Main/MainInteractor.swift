@@ -14,17 +14,19 @@ import UIKit
 
 protocol MainBusinessLogic {
     func fetchMemuItems(request: Main.FetchMenus.Request)
+    func fetchCartItems(request: Main.FetchCart.Request)
 }
 
 protocol MainDataStore {
     var menuItems: [MenuItem] { get set }
 }
 
-class MainInteractor: MainBusinessLogic, MainDataStore {
+final class MainInteractor: MainBusinessLogic, MainDataStore {
     var menuItems: [MenuItem] = []
     
     var presenter: MainPresentationLogic?
     private var worker: MainWorker = MainWorker()
+    private let cartManager: CartManagerProtocol = CartManager.shared
 
     // MARK: Do something (and send response to MainPresenter)
 
@@ -32,8 +34,28 @@ class MainInteractor: MainBusinessLogic, MainDataStore {
         worker.fetchMenuItems { [weak self] response in
             self?.menuItems = response
             DispatchQueue.main.async {
-                self?.presenter?.presentMenuItems(response: .init())
+                self?.presenter?.presentMenuItems(
+                    response: .init(
+                        menuItems: response,
+                        cartItems: self?.cartManager.getAllItems() ?? []
+                    )
+                )
             }
         }
+    }
+    
+    func fetchCartItems(request: Main.FetchCart.Request) {
+        presenter?.presentMenuItems(
+            response: .init(
+                menuItems: menuItems,
+                cartItems: cartManager.getAllItems()
+            )
+        )
+        presenter?.presentCartItems(
+            response: .init(
+                totalPriceOfItems: cartManager.getTotalPrice(),
+                isHiddenCheckoutButton: cartManager.getAllItems().isEmpty
+            )
+        )
     }
 }
