@@ -24,7 +24,7 @@ enum Detail {
 
         struct Response {
             let menuItem: MenuItem
-            let numberOfItemsInCart: Int
+            let numberOfMenuInCart: Int
             let totalPrice: Double
         }
 
@@ -33,7 +33,7 @@ enum Detail {
             let title: String
             let price: String
             let description: String
-            let numberOfItemsInCart: String
+            let numberOfMenuInCart: String
             let totalPrice: String
         }
     }

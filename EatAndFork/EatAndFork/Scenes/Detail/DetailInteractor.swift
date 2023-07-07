@@ -25,20 +25,24 @@ protocol DetailDataStore {
 final class DetailInteractor: DetailBusinessLogic, DetailDataStore {
     var presenter: DetailPresentationLogic?
     var menuItem: MenuItem?
-    
-    private let cartManager: CartManagerProtocol = CartManager.shared
 
     private var numberOfItem = 1
-
-    // MARK: Do something (and send response to DetailPresenter)
+    
+    private let cartManager: CartManagerProtocol
+    
+    init(cartManager: CartManagerProtocol = CartManager.shared) {
+        self.cartManager = cartManager
+    }
     
     func fetchData(request: Detail.FetchData.Request) {
+        let numberOfMenu = cartManager.getNumberOfMenu()
+        let totalPriceOfItems = cartManager.getTotalPriceOfItems()
         guard let menuItem = menuItem else { return }
         presenter?.presentData(
             response: .init(
                 menuItem: menuItem,
-                numberOfItemsInCart: cartManager.getNumberOfItems(),
-                totalPrice: cartManager.getTotalPrice()
+                numberOfMenuInCart: numberOfMenu,
+                totalPrice: totalPriceOfItems
             )
         )
     }

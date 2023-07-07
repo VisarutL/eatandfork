@@ -20,15 +20,15 @@ protocol SearchDataPassing {
     var dataStore: SearchDataStore? { get }
 }
 
-final class SearchRouter: NSObject, SearchRoutingLogic, SearchDataPassing {
+final class SearchRouter: SearchRoutingLogic, SearchDataPassing {
     weak var viewController: SearchViewController?
     var dataStore: SearchDataStore?
 
     func routeToItemDetail(index: Int) {
-        guard let viewController = viewController else { return }
-        let detailViewController = DetailViewController()
-        detailViewController.interactor?.menuItem = dataStore?.menuItems[index]
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let detailViewController = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
+        detailViewController.interactor?.menuItem = dataStore?.currentItems[index]
         detailViewController.modalPresentationStyle = .fullScreen
-        viewController.present(detailViewController, animated: true)
+        viewController?.present(detailViewController, animated: true)
     }
 }

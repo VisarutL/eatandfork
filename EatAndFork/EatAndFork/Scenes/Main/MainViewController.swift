@@ -18,8 +18,8 @@ protocol MainDisplayLogic: AnyObject {
 }
 
 final class MainViewController: UIViewController, MainDisplayLogic {
-    private var interactor: (MainBusinessLogic & MainDataStore)?
-    private var router: (NSObjectProtocol & MainRoutingLogic & MainDataPassing)?
+    private var interactor: MainBusinessLogic?
+    private var router: (MainRoutingLogic & MainDataPassing)?
     @IBOutlet private weak var containerButtonView: UIStackView!
     @IBOutlet private weak var listButton: UIButton!
     @IBOutlet private weak var gridButton: UIButton!
@@ -62,6 +62,7 @@ final class MainViewController: UIViewController, MainDisplayLogic {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupUI()
         setupTableView()
         setupCollectionView()
@@ -75,21 +76,20 @@ final class MainViewController: UIViewController, MainDisplayLogic {
     }
     
     private func setupUI() {
-//        containerButtonView.layer.cornerRadius = 8
-//        let path = UIBezierPath(roundedRect: gridButton.bounds, byRoundingCorners: [.topRight, .bottomRight], cornerRadii: CGSize(width: 8, height: 8))
-//        let mask = CAShapeLayer()
-//        mask.path = path.cgPath
-//        gridButton.layer.mask = mask
-        listButton.layer.borderColor = UIColor.red.cgColor
+        listButton.layer.cornerRadius = 8
+        listButton.layer.borderColor = UIColor.appColor(.placeholder)?.cgColor
+        listButton.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMinXMinYCorner]
+        gridButton.layer.cornerRadius = 8
         gridButton.layer.borderWidth = 1
-        gridButton.layer.borderColor = UIColor.red.cgColor
+        gridButton.layer.borderColor = UIColor.appColor(.placeholder)?.cgColor
+        gridButton.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
         checkoutButton.layer.cornerRadius = 12
         checkoutButton.dropShadow(color: .black, opacity: 0.25, offSet: .init(width: 0, height: -1), radius: 8)
     }
     
     private func setupTableView() {
-        tableView.register(.init(nibName: "SearchTableViewCell", bundle: nil), forCellReuseIdentifier: SearchTableViewCell.reuseIdentifier)
-        tableView.register(.init(nibName: "ItemListTableViewCell", bundle: nil), forCellReuseIdentifier: ItemListTableViewCell.reuseIdentifier)
+        tableView.register(.init(nibName: SearchTableViewCell.reuseIdentifier, bundle: nil), forCellReuseIdentifier: SearchTableViewCell.reuseIdentifier)
+        tableView.register(.init(nibName: ItemListTableViewCell.reuseIdentifier, bundle: nil), forCellReuseIdentifier: ItemListTableViewCell.reuseIdentifier)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44.0
     }
@@ -106,8 +106,8 @@ final class MainViewController: UIViewController, MainDisplayLogic {
             }
         }
         collectionView.setCollectionViewLayout(layout, animated: true)
-        collectionView.register(.init(nibName: "SearchCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: SearchCollectionViewCell.reuseIdentifier)
-        collectionView.register(.init(nibName: "GridItemCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: GridItemCollectionViewCell.reuseIdentifier)
+        collectionView.register(.init(nibName: SearchCollectionViewCell.reuseIdentifier, bundle: nil), forCellWithReuseIdentifier: SearchCollectionViewCell.reuseIdentifier)
+        collectionView.register(.init(nibName: GridItemCollectionViewCell.reuseIdentifier, bundle: nil), forCellWithReuseIdentifier: GridItemCollectionViewCell.reuseIdentifier)
     }
     
     private func searchSection() -> NSCollectionLayoutSection {
@@ -260,7 +260,7 @@ extension MainViewController: UICollectionViewDataSource {
         case .search:
             return 1
         case .menus:
-            return interactor?.menuItems.count ?? 0
+            return viewModels.count
         case .none:
             return 0
         }

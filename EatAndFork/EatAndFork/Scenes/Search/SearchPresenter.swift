@@ -24,7 +24,7 @@ final class SearchPresenter: SearchPresentationLogic {
             ItemViewModel(
                 imageUrl: item.imageUrl,
                 name: item.name,
-                price: item.price.description.Baht(),
+                price: item.price.description.baht(),
                 numberOfItem: nil
             )
         }

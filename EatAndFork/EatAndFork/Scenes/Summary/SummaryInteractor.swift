@@ -17,21 +17,42 @@ protocol SummaryBusinessLogic {
     func deleteItem(request: Summary.DeleteItem.Request)
 }
 
-protocol SummaryDataStore {
-    
-}
-
-final class SummaryInteractor: SummaryBusinessLogic, SummaryDataStore {
+final class SummaryInteractor: SummaryBusinessLogic {
     var presenter: SummaryPresentationLogic?
-
-    private let cartManager: CartManagerProtocol = CartManager.shared
+    
+    private var cartItems: [CartItem] {
+        return cartManager.getAllItems()
+    }
+    
+    private var totalPriceOfItems: Double {
+        return cartManager.getTotalPriceOfItems()
+    }
+    
+    private var serviceCharge: Double {
+        return cartManager.getServiceCharge()
+    }
+    
+    private var vat: Double {
+        return cartManager.getVat()
+    }
+    
+    private var totalPrice: Double {
+        return cartManager.getTotalPriceWithExtra()
+    }
+    
+    private let cartManager: CartManagerProtocol
+    
+    init(cartManager: CartManagerProtocol = CartManager.shared) {
+        self.cartManager = cartManager
+    }
 
     func fetchData(request: Summary.FetchData.Request) {
-        let cartItems = cartManager.getAllItems()
-        let totalPrice = cartManager.getTotalPrice()
         presenter?.presentData(
             response: .init(
                 cartItems: cartItems,
+                totalPriceOfItems: totalPriceOfItems,
+                serviceCharge: serviceCharge,
+                vat: vat,
                 totalPrice: totalPrice
             )
         )
@@ -39,11 +60,12 @@ final class SummaryInteractor: SummaryBusinessLogic, SummaryDataStore {
     
     func deleteItem(request: Summary.DeleteItem.Request) {
         cartManager.deleteItem(index: request.index)
-        let cartItems = cartManager.getAllItems()
-        let totalPrice = cartManager.getTotalPrice()
         presenter?.presentData(
             response: .init(
                 cartItems: cartItems,
+                totalPriceOfItems: totalPriceOfItems,
+                serviceCharge: serviceCharge,
+                vat: vat,
                 totalPrice: totalPrice
             )
         )

@@ -4,8 +4,6 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -16,7 +14,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SearchView" customModule="EatAndFork" customModuleProvider="target">
             <connections>
-                <outlet property="containerView" destination="k7a-1h-Zhg" id="gPJ-6M-BHO"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="ecb-g2-ob4"/>
             </connections>
         </placeholder>
@@ -25,18 +22,18 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="36"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k7a-1h-Zhg">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oxt-qC-UMh">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="36"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="search" translatesAutoresizingMaskIntoConstraints="NO" id="vGd-nK-vFA">
-                            <rect key="frame" x="16" y="10" width="16" height="16"/>
+                            <rect key="frame" x="20" y="10" width="16" height="16"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="16" id="XM0-v7-u9X"/>
                                 <constraint firstAttribute="width" secondItem="vGd-nK-vFA" secondAttribute="height" multiplier="1:1" id="ecz-8o-P3n"/>
                             </constraints>
                         </imageView>
                         <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="ค้นหาเมนู" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cCm-vz-N8t">
-                            <rect key="frame" x="40" y="8" width="327" height="20"/>
+                            <rect key="frame" x="44" y="0.0" width="331" height="36"/>
                             <color key="textColor" name="textColor"/>
                             <fontDescription key="fontDescription" name="Mitr-Light" family="Mitr" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
@@ -45,29 +42,27 @@
                             </connections>
                         </textField>
                     </subviews>
-                    <color key="backgroundColor" red="0.96470588235294119" green="0.97254901960784312" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstItem="cCm-vz-N8t" firstAttribute="top" secondItem="k7a-1h-Zhg" secondAttribute="top" constant="8" id="HiX-8s-Z3U"/>
-                        <constraint firstItem="vGd-nK-vFA" firstAttribute="top" secondItem="k7a-1h-Zhg" secondAttribute="top" constant="10" id="JqL-46-nRn"/>
-                        <constraint firstAttribute="height" constant="36" id="MkW-jf-uVB"/>
-                        <constraint firstAttribute="bottom" secondItem="vGd-nK-vFA" secondAttribute="bottom" constant="10" id="Q5q-9h-oOZ"/>
-                        <constraint firstAttribute="trailing" secondItem="cCm-vz-N8t" secondAttribute="trailing" constant="8" id="h2x-ek-6Wk"/>
-                        <constraint firstAttribute="bottom" secondItem="cCm-vz-N8t" secondAttribute="bottom" constant="8" id="kfW-yo-wXz"/>
-                        <constraint firstItem="cCm-vz-N8t" firstAttribute="leading" secondItem="vGd-nK-vFA" secondAttribute="trailing" constant="8" id="r6L-Be-jmX"/>
-                        <constraint firstItem="vGd-nK-vFA" firstAttribute="leading" secondItem="k7a-1h-Zhg" secondAttribute="leading" constant="16" id="zJB-qQ-X6A"/>
+                        <constraint firstAttribute="trailing" secondItem="cCm-vz-N8t" secondAttribute="trailing" id="7RO-qN-jjb"/>
+                        <constraint firstItem="vGd-nK-vFA" firstAttribute="centerY" secondItem="oxt-qC-UMh" secondAttribute="centerY" id="HHA-6d-PY7"/>
+                        <constraint firstItem="cCm-vz-N8t" firstAttribute="top" secondItem="oxt-qC-UMh" secondAttribute="top" id="R83-7M-Ee3"/>
+                        <constraint firstAttribute="height" constant="36" id="ZhQ-76-7Mf"/>
+                        <constraint firstItem="cCm-vz-N8t" firstAttribute="leading" secondItem="vGd-nK-vFA" secondAttribute="trailing" constant="8" id="ivY-VC-e5c"/>
+                        <constraint firstAttribute="bottom" secondItem="cCm-vz-N8t" secondAttribute="bottom" id="pd6-n7-Qxu"/>
+                        <constraint firstItem="vGd-nK-vFA" firstAttribute="leading" secondItem="oxt-qC-UMh" secondAttribute="leading" constant="20" id="zjq-y4-bKs"/>
                     </constraints>
                 </view>
             </subviews>
-            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
-            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <color key="backgroundColor" red="0.96470588235294119" green="0.97254901960784312" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="k7a-1h-Zhg" secondAttribute="trailing" id="J1g-YP-PtK"/>
-                <constraint firstItem="k7a-1h-Zhg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="K5X-0l-h3e"/>
-                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="k7a-1h-Zhg" secondAttribute="bottom" id="UV2-Wg-IPe"/>
-                <constraint firstItem="k7a-1h-Zhg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="s2P-Wl-5pH"/>
+                <constraint firstItem="oxt-qC-UMh" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="78f-WG-IqT"/>
+                <constraint firstAttribute="bottom" secondItem="oxt-qC-UMh" secondAttribute="bottom" id="LB5-6W-IiU"/>
+                <constraint firstAttribute="trailing" secondItem="oxt-qC-UMh" secondAttribute="trailing" id="opV-Me-oTJ"/>
+                <constraint firstItem="oxt-qC-UMh" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="qDm-xv-wO2"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="238.93129770992365" y="-11.267605633802818"/>
+            <point key="canvasLocation" x="238.93129770992365" y="-4.2253521126760569"/>
         </view>
     </objects>
     <resources>
@@ -75,8 +70,5 @@
         <namedColor name="textColor">
             <color red="0.28999999165534973" green="0.28999999165534973" blue="0.28999999165534973" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
     </resources>
 </document>

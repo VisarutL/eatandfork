@@ -14,9 +14,4 @@ struct MenuItem: Codable, Hashable {
     var url: String
     var price: Int
     var imageUrl: String
-    
-    enum CodingKeys: String, CodingKey {
-        case id, name, desc, url, price
-        case imageUrl = "image_url"
-    }
 }

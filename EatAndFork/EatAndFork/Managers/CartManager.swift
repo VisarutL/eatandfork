@@ -43,21 +43,25 @@ protocol CartManagerProtocol {
     func addItem(menuItemSelection: MenuItemSelection)
     func deleteItem(index: Int)
     func clearCart()
-    func getItemById(id: Int) -> CartItem?
     func getAllItems() -> [CartItem]
+    func getNumberOfMenu() -> Int
     func getNumberOfItems() -> Int
-    func getTotalPrice() -> Double
+    func getTotalPriceOfItems() -> Double
+    func getServiceCharge() -> Double
+    func getVat() -> Double
+    func getTotalPriceWithExtra() -> Double
 }
 
 final class CartManager: CartManagerProtocol {
     
-    private let cartItemsKey = "cartItems"
+    private let cartItemsKey: String
     
     static let shared = CartManager()
     
     private var cartItems: [CartItem] = []
     
-    init() {
+    init(cartItemsKey: String = "cartItems") {
+        self.cartItemsKey = cartItemsKey
         if
             let data = UserDefaults.standard.object(forKey: cartItemsKey) as? Data,
             let items = try? JSONDecoder().decode([CartItem].self, from: data)
@@ -84,22 +88,35 @@ final class CartManager: CartManagerProtocol {
     
     func clearCart() {
         cartItems = []
-    }
-    
-    func getItemById(id: Int) -> CartItem? {
-        return cartItems.first { $0.id == id }
+        saveData()
     }
     
     func getAllItems() -> [CartItem] {
         return cartItems
     }
     
+    func getNumberOfMenu() -> Int {
+        return cartItems.count
+    }
+    
     func getNumberOfItems() -> Int {
         return cartItems.reduce(0, { $0 + $1.numberOfItem })
     }
     
-    func getTotalPrice() -> Double {
+    func getTotalPriceOfItems() -> Double {
         return Double(cartItems.reduce(0) { $0 + ($1.numberOfItem * $1.price) })
+    }
+    
+    func getServiceCharge() -> Double {
+        return ((getTotalPriceOfItems() * 10) / 100)
+    }
+    
+    func getVat() -> Double {
+        return (((getTotalPriceOfItems() + getServiceCharge()) * 7) / 100)
+    }
+    
+    func getTotalPriceWithExtra() -> Double {
+        return (getTotalPriceOfItems() + getServiceCharge() + getVat())
     }
     
     private func saveData() {

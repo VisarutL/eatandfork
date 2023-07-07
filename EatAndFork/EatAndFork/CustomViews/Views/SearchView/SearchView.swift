@@ -14,7 +14,6 @@ protocol SearchViewDelegate: AnyObject {
 final class SearchView: UIView {
 
     @IBOutlet private var contentView: UIView!
-    @IBOutlet private weak var containerView: UIView!
     
     weak var delegate: SearchViewDelegate?
     
@@ -32,8 +31,13 @@ final class SearchView: UIView {
     
     private func setupUI() {
         loadNib()
+        contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)
-        containerView.layer.cornerRadius = 8
+        contentView.layer.cornerRadius = 8
+        NSLayoutConstraint(item: contentView as Any, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 0).isActive = true
+        NSLayoutConstraint(item: contentView as Any, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: 0).isActive = true
+        NSLayoutConstraint(item: contentView as Any, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0).isActive = true
+        NSLayoutConstraint(item: contentView as Any, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 0).isActive = true
     }
 }
 

@@ -21,7 +21,7 @@ protocol DetailDisplayLogic: AnyObject
 
 final class DetailViewController: UIViewController, DetailDisplayLogic {
     var interactor: (DetailBusinessLogic & DetailDataStore)?
-    var router: (NSObjectProtocol & DetailRoutingLogic & DetailDataPassing)?
+    var router: (DetailRoutingLogic & DetailDataPassing)?
     
     @IBOutlet private weak var menuImageView: UIImageView!
     @IBOutlet private weak var menuLabel: UILabel!
@@ -84,7 +84,7 @@ final class DetailViewController: UIViewController, DetailDisplayLogic {
         addItemContainerView.layer.cornerRadius = 16
         addItemContainerView.dropShadow(color: .black, opacity: 0.25, offSet: .init(width: 0, height: -1), radius: 8)
         stepperView.layer.cornerRadius = 6
-        stepperView.layer.borderWidth = 1.5
+        stepperView.layer.borderWidth = 0.5
         stepperView.layer.borderColor = UIColor.appColor(.placeholder)?.cgColor
     }
     
@@ -118,7 +118,7 @@ final class DetailViewController: UIViewController, DetailDisplayLogic {
         priceLabel.text = viewModel.price
         totalPriceOfItemLabel.text = viewModel.price
         descLabel.text = viewModel.description
-        numberOfItemInCartLabel.text = viewModel.numberOfItemsInCart
+        numberOfItemInCartLabel.text = viewModel.numberOfMenuInCart
         totalPriceOfItemsLabel.text = viewModel.totalPrice
     }
     

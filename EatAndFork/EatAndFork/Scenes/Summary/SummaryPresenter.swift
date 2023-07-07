@@ -26,20 +26,16 @@ final class SummaryPresenter: SummaryPresentationLogic {
                     imageUrl: item.imageUrl,
                     numberOfItem: "\(item.numberOfItem.description)x",
                     title: item.name,
-                    price: (item.price * item.numberOfItem).description.Baht()
+                    price: Double(item.price * item.numberOfItem).roundToTwoDecimal().baht()
                 )
             )
         }
-        
-        let serviceCharge = ((response.totalPrice * 10) / 100).roundToTwoDecimal()
-        let vat = ((serviceCharge * 8) / 100).roundToTwoDecimal()
-        let total = (response.totalPrice + serviceCharge + vat).roundToTwoDecimal()
         
         var priceDetailViewModels = [
             Summary.Row.priceDetail(
                 .init(
                     title: "รวมค่าอาหาร",
-                    price: response.totalPrice.description,
+                    price: response.totalPriceOfItems.roundToTwoDecimal().baht(),
                     style: .normal
                 )
             )
@@ -49,7 +45,7 @@ final class SummaryPresenter: SummaryPresentationLogic {
             .priceDetail(
                 .init(
                     title: "ค่าบริการ 10%",
-                    price: serviceCharge.description,
+                    price: response.serviceCharge.roundToTwoDecimal().baht(),
                     style: .normal
                 )
             )
@@ -59,7 +55,7 @@ final class SummaryPresenter: SummaryPresentationLogic {
             .priceDetail(
                 .init(
                     title: "ภาษี 7%",
-                    price: vat.description,
+                    price: response.vat.roundToTwoDecimal().baht(),
                     style: .normal
                 )
             )
@@ -69,7 +65,7 @@ final class SummaryPresenter: SummaryPresentationLogic {
             .priceDetail(
                 .init(
                     title: "ราคารวม",
-                    price: total.description,
+                    price: response.totalPrice.roundToTwoDecimal().baht(),
                     style: .bold
                 )
             )
@@ -78,14 +74,8 @@ final class SummaryPresenter: SummaryPresentationLogic {
             viewModel: .init(
                 summaryItemListViewModels: cartItemViewModels,
                 priceDetailViewModels: priceDetailViewModels,
-                totalPrice: total.description.Baht()
+                totalPrice: response.totalPrice.roundToTwoDecimal().baht()
             )
         )
-    }
-}
-
-extension Double {
-    func roundToTwoDecimal() -> Double {
-        return ceil(self * 100) / 100
     }
 }

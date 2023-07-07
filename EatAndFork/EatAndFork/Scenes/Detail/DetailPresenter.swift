@@ -21,17 +21,15 @@ protocol DetailPresentationLogic {
 final class DetailPresenter: DetailPresentationLogic {
     weak var viewController: DetailDisplayLogic?
 
-    // MARK: Parse and calc respnse from DetailInteractor and send simple view model to DetailViewController to be displayed
-
     func presentData(response: Detail.FetchData.Response) {
         viewController?.displayData(
             viewModel: .init(
                 imageUrl: response.menuItem.imageUrl,
                 title: response.menuItem.name,
-                price: response.menuItem.price.description.Baht(),
+                price: response.menuItem.price.description.baht(),
                 description: response.menuItem.desc,
-                numberOfItemsInCart: response.numberOfItemsInCart.description,
-                totalPrice: response.totalPrice.description.Baht()
+                numberOfMenuInCart: response.numberOfMenuInCart.description,
+                totalPrice: Int(response.totalPrice).description.baht()
             )
         )
     }
@@ -39,7 +37,7 @@ final class DetailPresenter: DetailPresentationLogic {
     func presentAdjustItem(response: Detail.AdjustItem.Response) {
         viewController?.displayAdjustItem(
             viewModel: .init(
-                totalItemPrice: (response.menuItem.price * response.numberOfItem).description.Baht(),
+                totalItemPrice: (response.menuItem.price * response.numberOfItem).description.baht(),
                 numberOfItem: response.numberOfItem
             )
         )

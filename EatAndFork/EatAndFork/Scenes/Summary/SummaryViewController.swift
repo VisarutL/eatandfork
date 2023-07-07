@@ -19,7 +19,7 @@ protocol SummaryDisplayLogic: AnyObject
 
 final class SummaryViewController: UIViewController, SummaryDisplayLogic {
     var interactor: SummaryBusinessLogic?
-    var router: (NSObjectProtocol & SummaryRoutingLogic & SummaryDataPassing)?
+    var router: SummaryRoutingLogic?
     
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var checkoutContainerView: UIView!
@@ -71,7 +71,6 @@ final class SummaryViewController: UIViewController, SummaryDisplayLogic {
         interactor.presenter = presenter
         presenter.viewController = viewController
         router.viewController = viewController
-        router.dataStore = interactor
     }
 
     // MARK: - View lifecycle
@@ -91,10 +90,11 @@ final class SummaryViewController: UIViewController, SummaryDisplayLogic {
     }
     
     private func setupTableView() {
-        tableView.register(.init(nibName: "SummaryItemListTableViewCell", bundle: nil), forCellReuseIdentifier: SummaryItemListTableViewCell.reuseIdentifier)
-        tableView.register(.init(nibName: "PriceDetailTableViewCell", bundle: nil), forCellReuseIdentifier: PriceDetailTableViewCell.reuseIdentifier)
+        tableView.register(.init(nibName: SummaryItemListTableViewCell.reuseIdentifier, bundle: nil), forCellReuseIdentifier: SummaryItemListTableViewCell.reuseIdentifier)
+        tableView.register(.init(nibName: PriceDetailTableViewCell.reuseIdentifier, bundle: nil), forCellReuseIdentifier: PriceDetailTableViewCell.reuseIdentifier)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44.0
+        tableView.contentInset = .init(top: 0, left: 0, bottom: 8, right: 0)
     }
     
     //MARK: - receive events from UI
@@ -124,15 +124,6 @@ final class SummaryViewController: UIViewController, SummaryDisplayLogic {
 // MARK: - UITableViewDelegate
 
 extension SummaryViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        switch Summary.Section.init(rawValue: indexPath.section) {
-        case .items:
-            return .delete
-        case .priceDetail, .none:
-            return .none
-        }
-    }
-    
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         switch Summary.Section.init(rawValue: indexPath.section) {
         case .items:

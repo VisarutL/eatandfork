@@ -8,7 +8,7 @@
 import Foundation
 
 extension String {
-    func Baht() -> String {
+    func baht() -> String {
         return "฿ \(self)"
     }
 }
