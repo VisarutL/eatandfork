@@ -75,14 +75,13 @@ final class MainViewController: UIViewController, MainDisplayLogic {
     }
     
     private func setupUI() {
-//        containerButtonView.layer.cornerRadius = 8
-//        let path = UIBezierPath(roundedRect: gridButton.bounds, byRoundingCorners: [.topRight, .bottomRight], cornerRadii: CGSize(width: 8, height: 8))
-//        let mask = CAShapeLayer()
-//        mask.path = path.cgPath
-//        gridButton.layer.mask = mask
-        listButton.layer.borderColor = UIColor.red.cgColor
+        listButton.layer.cornerRadius = 8
+        listButton.layer.borderColor = UIColor.appColor(.placeholder)?.cgColor
+        listButton.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMinXMinYCorner]
+        gridButton.layer.cornerRadius = 8
         gridButton.layer.borderWidth = 1
-        gridButton.layer.borderColor = UIColor.red.cgColor
+        gridButton.layer.borderColor = UIColor.appColor(.placeholder)?.cgColor
+        gridButton.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
         checkoutButton.layer.cornerRadius = 12
         checkoutButton.dropShadow(color: .black, opacity: 0.25, offSet: .init(width: 0, height: -1), radius: 8)
     }
