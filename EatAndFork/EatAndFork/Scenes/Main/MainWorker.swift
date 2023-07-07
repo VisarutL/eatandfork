@@ -11,21 +11,31 @@
 //
 
 import UIKit
+import Alamofire
 
 final class MainWorker {
     func fetchMenuItems(completion: @escaping ([MenuItem]) -> Void)  {
-        if let url = URL(string: "https://63bd4463d6600623889f97ea.mockapi.io/menus") {
-            URLSession.shared.dataTask(with: url) { data, response, error in
-                if let data = data {
-                    do {
-                        let response = try JSONDecoder().decode([MenuItem].self, from: data)
-                        completion(response)
-                    } catch let error {
-                        print(error)
-                        completion([])
-                    }
+        AF.request("https://63bd4463d6600623889f97ea.mockapi.io/menus").response { response in
+            if let data = response.data {
+                do {
+                    let response = try JSONDecoder().decode([MenuItem].self, from: data)
+                    completion(response)
+                } catch {
+                    completion([])
                 }
-            }.resume()
+            }
         }
+//        if let url = URL(string: "https://63bd4463d6600623889f97ea.mockapi.io/menus") {
+//            URLSession.shared.dataTask(with: url) { data, response, error in
+//                if let data = data {
+//                    do {
+//                        let response = try JSONDecoder().decode([MenuItem].self, from: data)
+//                        completion(response)
+//                    } catch {
+//                        completion([])
+//                    }
+//                }
+//            }.resume()
+//        }
     }
 }
